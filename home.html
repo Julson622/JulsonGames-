@@ -388,7 +388,7 @@ async function carregarUsuario() {
   }
 
   try {
-    const response = await fetch(`http://127.0.0.1:8080/api/perfil/${encodeURIComponent(userName)}`);
+    const response = await fetch(`/api/perfil/${encodeURIComponent(userName)}`);
     const data = await response.json();
 
     if (!data.success) {
@@ -442,7 +442,7 @@ async function limparLogs(){
     return;
   }
   
-  const res = await fetch('http://127.0.0.1:8080/api/logs/limpar', {method: 'POST'});
+  const res = await fetch('/api/logs/limpar', {method: 'POST'});
   const data = await res.json();
   
   if(data.success){
@@ -452,7 +452,7 @@ async function limparLogs(){
 }
 
 async function carregarGraficoAdmin(){
-  const res = await fetch('http://127.0.0.1:8080/api/stats/semana');
+  const res = await fetch('/api/stats/semana');
   const data = await res.json();
   
   const dados = [data.seg, data.ter, data.qua, data.qui, data.sex];
@@ -531,7 +531,7 @@ async function carregarGraficoAdmin(){
 }
 
 async function carregarDetalhesHoje(){
-  const res = await fetch('http://127.0.0.1:8080/api/logs/hoje');
+  const res = await fetch('/api/logs/hoje');
   const logs = await res.json();
   
   if(logs.length === 0){
