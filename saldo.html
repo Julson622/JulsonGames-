@@ -135,7 +135,7 @@ async function carregarSaldo() {
   try {
 
     const response = await fetch(
-      `http://localhost:8080/api/perfil/${encodeURIComponent(userName)}`
+      `/api/perfil/${encodeURIComponent(userName)}`
     );
 
     const data = await response.json();
@@ -188,7 +188,7 @@ async function usarKey() {
   try {
 
     const response = await fetch(
-      'http://localhost:8080/api/usar-key',
+      '/api/usar-key',
       {
         method:'POST',
 
