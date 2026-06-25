@@ -727,18 +727,14 @@ app.post('/api/gerar-key-adm', (req, res) => {
 
 //==========================================================
 
+
 // ================== START ==================
 
 app.use(express.static(__dirname));
 
-app.listen(PORT, () => {
-
-  console.log(`
-🚀 JULSON GAMES SERVER ONLINE
-🌐 http://localhost:${PORT}
-📂 Banco USERS: users.json
-🔑 Banco KEYS: key.json
-⚡ Porta: ${PORT}
-  `);
-
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 JULSON GAMES SERVER ONLINE`);
+  console.log(`⚡ Porta: ${PORT}`);
+  console.log(`📂 Banco USERS: users.json`);
+  console.log(`🔑 Banco KEYS: key.json`);
 });
