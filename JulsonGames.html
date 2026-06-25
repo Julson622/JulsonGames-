@@ -249,7 +249,7 @@ const API = ""; // Local vazio. No Render: "https://julson-games.onrender.com"
 async function loadSaldo(){
   const user = localStorage.getItem("userName") || "demo";
   try {
-    const r = await fetch(`${API}/api/perfil/${user}`);
+    const r = await fetch(`/api/perfil/${user}`);
     const d = await r.json();
     document.getElementById("saldo").innerText = Number(d.user.saldo || 0).toFixed(2);
   } catch(e){}
@@ -279,7 +279,7 @@ async function carregarJogos(filtro = ""){
   const userId = localStorage.getItem("userName") || "demo";
   
   try {
-    const resVotos = await fetch(`${API}/api/votos/${id}?user=${userId}`);
+    const resVotos = await fetch(`/api/votos/${id}?user=${userId}`);
     const dataVotos = await resVotos.json();
     return { jogo, id, dataVotos };
   } catch(e) {
@@ -323,7 +323,7 @@ async function votar(id, isLike, e){
   const tipo = isLike? 'like' : 'dislike';
 
   try {
-    const r = await fetch('${API}/api/voto', {
+    const r = await fetch('/api/voto', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({ userId, jogoId: id, tipo })
@@ -382,7 +382,7 @@ async function abrirModal(jogo){
   }
 
   // Busca quantas vezes já compartilhou
-  const res = await fetch(`${API}/api/jogo/${idJogo}?user=${userId}`);
+  const res = await fetch(`/api/jogo/${idJogo}?user=${userId}`);
   const data = await res.json();
   const count = data.shareCount || 0;
   
@@ -437,7 +437,7 @@ function fecharModal(){
 async function compartilharWhats(idJogo, linkDownload){
   const userId = localStorage.getItem("userName") || "demo";
 
-  const r = await fetch('${API}/api/share', {
+  const r = await fetch('/api/share', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
     body: JSON.stringify({ userId, jogoId: idJogo })
