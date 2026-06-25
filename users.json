@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1782299575012,
+    "nome": "Julson",
+    "email": "julsonjuliaopaiva5@gmal.com",
+    "telefone": "+258856856444",
+    "senha": "123456789",
+    "saldo": 604.83,
+    "data": "24/06/2026, 13:12:55",
+    "ip": "::1"
+  },
+  {
+    "id": 1782322107048,
+    "nome": "python app.py",
+    "email": "pedropaiva139@gmail.com",
+    "telefone": "+2588568564545188",
+    "senha": "u26qvgrav52va",
+    "saldo": 0,
+    "data": "24/06/2026, 19:28:27",
+    "ip": "::1"
+  },
+  {
+    "id": 1782330832472,
+    "nome": "Bvsfsv",
+    "email": "hsysgggg@gmail.con",
+    "telefone": "+25836484540",
+    "senha": "hsgatgwgwta5",
+    "saldo": 0,
+    "data": "24/06/2026, 21:53:52",
+    "ip": "::1"
+  }
+]

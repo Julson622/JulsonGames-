@@ -1,0 +1,45 @@
+[
+  {
+    "nome": "G-Force",
+    "icone": "https://i.ibb.co/s949VbjD/40db562b46a7.jpg",
+    "descricao": "Jogo de acção diversão",
+    "tamanho": "100MB",
+    "download": "https://www.mediafire.com/download/3ooyvag3mqdas5y",
+    "imagens": [
+      "https://i.ibb.co/xK04PWPr/46f2b2526efb.jpg",
+      "https://i.ibb.co/vxFhqgCF/0c58f66cc8cf.jpg",
+      "https://i.ibb.co/vxFhqgCF/0c58f66cc8cf.jpg"
+    ],
+    "plataforma": "PSP",
+    "custo": "Grátis"
+  },
+  {
+    "nome": "GTA San Andreas",
+    "icone": "https://i.ibb.co/WpdP68j6/3fdf74b5ce2f.jpg",
+    "descricao": "GTA San Andreas é um clássico mundo aberto onde tu vives a vida de CJ em Los Santos. Missões insanas, carros, gangues e liberdade total pra dominar a cidade. Bora jogar?",
+    "tamanho": "2,46GB",
+    "download": "https://www.mediafire.com/file/2wyqa5ratyukcsc/Grand-Theft-Auto-San-Andreas-2.11.311.apk/file",
+    "imagens": [
+      "https://i.ibb.co/G4S8fQ8J/bcee1737cd88.jpg",
+      "https://i.ibb.co/NgN08VtM/25c0bf650dbe.jpg",
+      "https://i.ibb.co/M5DHYQ0n/f73eb3b5170a.jpg",
+      "https://i.ibb.co/WpdP68j6/3fdf74b5ce2f.jpg"
+    ],
+    "plataforma": "Android e IOS",
+    "custo": "Grátis"
+  },
+  {
+    "nome": "Naruto Ultimato Ninja",
+    "icone": "https://i.ibb.co/27nc8p2b/f2116bd2799a.jpg",
+    "descricao": "Naruto Ultimate Ninja Storm Mobile: entra na luta com Naruto, Sasuke e todo o time! Gráficos insanos, jutsus épicos e batalhas 1v1 estilo anime. Invoca o poder do Kurama e vira Hokage no teu celular!",
+    "tamanho": "3,27GB",
+    "download": "https://www.mediafire.com/file/gkws4t3maoa0dgg/NARUTO_ULTIMATE_NINJA_STORM_MOBILE.apk/file?dkey=k9xftfburet&r=386",
+    "imagens": [
+      "https://i.ibb.co/ymPWgdCm/befe3815681c.jpg",
+      "https://i.ibb.co/PvS83m0g/3d2a996bc283.jpg",
+      "https://i.ibb.co/27nc8p2b/f2116bd2799a.jpg"
+    ],
+    "plataforma": "Android",
+    "custo": "150MZN"
+  }
+]

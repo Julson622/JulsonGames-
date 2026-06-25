@@ -1,0 +1,16 @@
+[
+  {
+    "tipo": "add-jogo",
+    "user": "Naruto Ultimato Ninja",
+    "dia": "25/06/2026",
+    "hora": "10:39:15",
+    "diaSemana": 4
+  },
+  {
+    "tipo": "login",
+    "user": "Julson",
+    "dia": "25/06/2026",
+    "hora": "11:28:04",
+    "diaSemana": 4
+  }
+]

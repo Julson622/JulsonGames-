@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JulsonGames - Sensibilidade & Jogos</title>
+  
+  <!-- PRA APARECER FOTO NO WHATSAPP/FACEBOOK -->
+  <meta property="og:title" content="JulsonGames - Sensibilidade & Jogos">
+  <meta property="og:description" content="Baixa jogos grátis Android, IOS, PC + Sensibilidades Free Fire atualizadas">
+  <meta property="og:image" content="https://i.ibb.co/xtDfwkqy/19e8bb2486d0.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#00f5ff">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0a001f, #1a0033);
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: rgba(10, 15, 45, 0.95);
+      backdrop-filter: blur(20px);
+      padding: 20px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(0, 229, 255, 0.3);
+    }
+
+    .logo {
+      font-size: 34px;
+      font-weight: 800;
+      color: #00f5ff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-shadow: 0 0 20px #00f5ff;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 120px 20px 80px;
+    }
+
+    .hero h1 {
+      font-size: 52px;
+      font-weight: 800;
+      background: linear-gradient(90deg, #00f5ff, #a78bff, #ff00ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 20px;
+      line-height: 1.1;
+    }
+
+    .hero p {
+      font-size: 24px;
+      color: #c0d4ff;
+      max-width: 800px;
+      margin: 0 auto 50px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 16px 36px;
+      font-size: 18px;
+      font-weight: 600;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.4s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-login {
+      background: linear-gradient(90deg, #00f5ff, #6a5cff);
+      color: #000;
+    }
+
+    .btn-login:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 245, 255, 0.4);
+    }
+
+    .btn-whatsapp {
+      background: #25D366;
+      color: white;
+    }
+
+    .btn-whatsapp:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(37, 211, 102, 0.4);
+    }
+
+    .services, .why {
+      padding: 60px 30px;
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: 50px;
+      color: #00f5ff;
+    }
+
+    .service-grid, .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .service-card, .why-card {
+      background: rgba(15, 23, 50, 0.8);
+      border: 1px solid rgba(0, 229, 255, 0.25);
+      border-radius: 20px;
+      padding: 30px;
+      transition: all 0.4s;
+    }
+
+    .service-card:hover, .why-card:hover {
+      border-color: #00f5ff;
+      transform: translateY(-12px);
+      box-shadow: 0 20px 40px rgba(0, 229, 255, 0.25);
+    }
+
+    footer {
+      text-align: center;
+      padding: 50px 20px 30px;
+      color: #777;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <i class="fa-solid fa-shield-halved"></i> JulsonGames
+    </div>
+  </header>
+
+  <div class="hero">
+    <h1>JulsonGames</h1>
+    <p>A maior plataforma de sensibilidade, jogos e serviços digitais de Moçambique</p>
+    
+    <div class="buttons">
+      <a href="login.html" class="btn btn-login">
+        <i class="fas fa-sign-in-alt"></i> INICIAR SESSÃO
+      </a>
+      <a href="login.html" class="btn btn-login">
+        <i class="fas fa-user-plus"></i> CRIAR CONTA GRÁTIS
+      </a>
+      <a href="https://whatsapp.com/channel/0029Vb6mQ1r9mrGlaAOnFX2c" target="_blank" class="btn btn-whatsapp">
+        <i class="fab fa-whatsapp"></i> CANAL OFICIAL
+      </a>
+    </div>
+  </div>
+
+  <!-- O que você encontra -->
+  <div class="services">
+    <h2 class="section-title">O que você encontra aqui</h2>
+    <div class="service-grid">
+      <div class="service-card">
+        <h3>🔥 JulsonSensi</h3>
+        <p><strong>Sensibilidade insana para Free Fire</strong><br>
+        Configurações profissionais testadas e aprovadas. Suba de rank com o verdadeiro Sabor JulsonSensi.</p>
+      </div>
+
+      <div class="service-card">
+        <h3>🎮 JulsonGames</h3>
+        <p>Loja completa de jogos, contas verificadas, diamantes, recargas e itens exclusivos.</p>
+      </div>
+
+      <div class="service-card">
+        <h3>🌐 JulsonNet</h3>
+        <p>Internet móvel, VPN de qualidade, contas Netflix, Spotify, Tempest e muito mais.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Porque escolher JulsonGames -->
+  <div class="why">
+    <h2 class="section-title">Porquê escolher a JulsonGames?</h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <h3>✅ Qualidade Garantida</h3>
+        <p>Tudo é testado e aprovado por mim antes de chegar até si.</p>
+      </div>
+      <div class="why-card">
+        <h3>⚡ Atualizações Rápidas</h3>
+        <p>Sensibilidades e serviços sempre atualizados.</p>
+      </div>
+      <div class="why-card">
+        <h3>🇲🇿 Feito para Moçambicanos</h3>
+        <p>Preços acessíveis e suporte em português.</p>
+      </div>
+      <div class="why-card">
+        <h3>🔒 Confiança Total</h3>
+        <p>Milhares de jogadores satisfeitos em todo o país.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2026 Criado por Julson Julião Paiva<br>
+    Moçambique 🇲🇿 • Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

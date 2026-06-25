@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JulsonGames - Adicionar Jogos</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+    body{min-height:100vh;background:linear-gradient(135deg,#0a001f,#1a0033);color:#fff;padding:20px}
+    .container{max-width:700px;margin:0 auto;background:rgba(15,23,50,0.9);padding:30px;border-radius:16px;border:1px solid rgba(0,229,255,0.3)}
+    h1{color:#00f5ff;text-align:center;margin-bottom:30px}
+    .form-group{margin-bottom:20px}
+    label{display:block;color:#00ff88;margin-bottom:8px;font-weight:bold}
+    input,textarea,select{width:100%;padding:14px;border:none;border-radius:10px;background:#111a35;color:#fff;font-size:16px;border:1px solid rgba(0,229,255,0.2)}
+    input:focus,textarea:focus{outline:none;border-color:#00f5ff}
+    .btn{width:100%;padding:16px;border:none;border-radius:10px;font-weight:bold;font-size:16px;cursor:pointer;transition:0.3s;margin-top:10px}
+    .btn-add{background:#00ff88;color:#000}
+    .btn-add:hover{box-shadow:0 0 20px rgba(0,255,136,0.5)}
+    .btn-del{background:#ff4444;color:#fff}
+    .btn-del:hover{box-shadow:0 0 20px rgba(255,68,68,0.5)}
+    .msg{padding:12px;border-radius:8px;margin-top:15px;text-align:center;display:none}
+    .msg.success{background:rgba(0,255,136,0.2);color:#00ff88}
+    .msg.error{background:rgba(255,68,68,0.2);color:#ff4444}
+    .game-list{margin-top:30px}
+    .game-item{display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,0.3);padding:15px;border-radius:10px;margin-bottom:10px}
+    .game-item img{width:50px;height:50px;border-radius:8px;object-fit:cover;margin-right:10px}
+    .game-info{display:flex;align-items:center;flex:1}
+    .small{font-size:12px;color:#aaa}
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1><i class="fa-solid fa-gamepad"></i> Painel de Jogos</h1>
+
+  <h3 style="color:#00f5ff;margin-bottom:15px;">➕ Adicionar Novo Jogo</h3>
+
+  <div class="form-group">
+    <label>Nome do jogo:</label>
+    <input type="text" id="nome" placeholder="Ex: Free Fire">
+  </div>
+
+  <div class="form-group">
+    <label>Plataforma:</label>
+    <select id="plataforma">
+      <option>Android</option>
+      <option>IOS</option>
+      <option>Android e IOS</option>
+      <option>PC</option>
+      <option>PSP</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>Descrição:</label>
+    <textarea id="descricao" rows="3" placeholder="Descreve o jogo pra chamar atenção..."></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>Tamanho:</label>
+    <input type="text" id="tamanho" placeholder="Ex: 2,46GB ou 500MB">
+  </div>
+
+  <div class="form-group">
+    <label>Custo:</label>
+    <input type="text" id="custo" placeholder="Ex: Grátis ou 150MZN">
+  </div>
+
+  <div class="form-group">
+    <label>Link de Download:</label>
+    <input type="text" id="download" placeholder="Link MediaFire, Drive, etc">
+  </div>
+
+  <div class="form-group">
+    <label>Imagem de ícone: 1 link</label>
+    <input type="text" id="icone" placeholder="https://i.ibb.co/...">
+  </div>
+
+  <div class="form-group">
+    <label>Imagens: máximo 3 links, separa por vírgula</label>
+    <textarea id="imagens" rows="2" placeholder="https://img1.jpg, https://img2.jpg, https://img3.jpg"></textarea>
+  </div>
+
+  <button class="btn btn-add" onclick="adicionarJogo()">✅ Confirmar e Adicionar</button>
+
+  <div id="msg" class="msg"></div>
+
+  <div class="game-list">
+    <h3 style="color:#ff5555;margin:30px 0 15px;">🗑️ Apagar Jogos</h3>
+    <div id="listaJogos">Carregando jogos...</div>
+  </div>
+</div>
+
+<script>
+async function carregarJogos(){
+  try{
+    const res = await fetch('/api/jogos');
+    const jogos = await res.json();
+
+    if(!Array.isArray(jogos) || jogos.length === 0){
+      document.getElementById('listaJogos').innerHTML = '<p style="color:#666;">Nenhum jogo cadastrado</p>';
+      return;
+    }
+
+    let html = '';
+    jogos.forEach((jogo, index) => {
+      html += `
+        <div class="game-item">
+          <div class="game-info">
+            <img src="${jogo.icone}" alt="${jogo.nome}" onerror="this.src='https://via.placeholder.com/50'">
+            <div>
+              <strong>${jogo.nome}</strong>
+              <div class="small">${jogo.plataforma} • ${jogo.tamanho} • ${jogo.custo}</div>
+            </div>
+          </div>
+          <button class="btn btn-del" style="width:auto;padding:8px 15px;font-size:14px" onclick="apagarJogo(${index})">Apagar</button>
+        </div>
+      `;
+    });
+    document.getElementById('listaJogos').innerHTML = html;
+  }catch(e){
+    document.getElementById('listaJogos').innerHTML = '<p style="color:#ff4444;">Erro ao carregar jogos</p>';
+    console.error(e);
+  }
+}
+
+async function adicionarJogo(){
+  const nome = document.getElementById('nome').value.trim();
+  const plataforma = document.getElementById('plataforma').value;
+  const descricao = document.getElementById('descricao').value.trim();
+  const tamanho = document.getElementById('tamanho').value.trim();
+  const custo = document.getElementById('custo').value.trim();
+  const download = document.getElementById('download').value.trim();
+  const icone = document.getElementById('icone').value.trim();
+  const imagens = document.getElementById('imagens').value.split(',').map(i => i.trim()).filter(i => i);
+
+  if(!nome || !descricao || !download || !icone){
+    mostrarMsg('Preenche Nome, Descrição, Download e Ícone!', 'error');
+    return;
+  }
+
+  if(imagens.length > 3){
+    mostrarMsg('Máximo 3 imagens!', 'error');
+    return;
+  }
+
+  const jogo = {nome, plataforma, descricao, tamanho, custo, download, icone, imagens};
+
+  try{
+    const res = await fetch('${API}/api/jogos/add', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(jogo)
+    });
+
+    const data = await res.json();
+    if(data.success){
+      mostrarMsg('✅ Jogo adicionado com sucesso!', 'success');
+      document.querySelectorAll('input,textarea').forEach(i => i.value = '');
+      carregarJogos();
+    } else {
+      mostrarMsg('❌ Erro: ' + data.message, 'error');
+    }
+  }catch(e){
+    mostrarMsg('❌ Erro de conexão com o servidor', 'error');
+  }
+}
+
+async function apagarJogo(index){
+  if(!confirm('Tem certeza que quer apagar este jogo?')){
+    return;
+  }
+
+  try{
+    const res = await fetch('${API}/api/jogos/del/' + index, {method: 'DELETE'});
+    const data = await res.json();
+
+    if(data.success){
+      mostrarMsg('✅ Jogo apagado!', 'success');
+      carregarJogos();
+    } else {
+      mostrarMsg('❌ Erro ao apagar', 'error');
+    }
+  }catch(e){
+    mostrarMsg('❌ Erro de conexão', 'error');
+  }
+}
+
+function mostrarMsg(texto, tipo){
+  const msg = document.getElementById('msg');
+  msg.className = 'msg ' + tipo;
+  msg.innerText = texto;
+  msg.style.display = 'block';
+  setTimeout(() => msg.style.display = 'none', 3000);
+}
+
+window.onload = carregarJogos;
+</script>
+
+</body>
+</html>

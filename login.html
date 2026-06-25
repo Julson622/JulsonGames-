@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JulsonGames - Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body {
+      min-height: 100vh;
+      background: radial-gradient(1200px 800px at 20% 20%, #0a1a2f 0%, #050b18 60%, #000 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #fff;
+    }
+    .login-container {
+      background: rgba(12, 20, 40, 0.85);
+      backdrop-filter: blur(24px);
+      border: 1px solid rgba(0, 200, 255, 0.4);
+      border-radius: 24px;
+      padding: 40px 30px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 0 40px rgba(0, 200, 255, 0.2);
+    }
+    .logo { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 28px; font-weight: 700; color: #00e5ff; margin-bottom: 8px; }
+    h1 { text-align: center; font-size: 26px; color: #00e5ff; margin-bottom: 25px; }
+    .input-group { position: relative; margin-bottom: 18px; }
+    .input-group input, select {
+      width: 100%; padding: 16px 20px 16px 50px; background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(0, 200, 255, 0.4); border-radius: 12px; color: #fff; font-size: 16px;
+    }
+    .input-group .icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: #00e5ff; font-size: 20px; }
+    .toggle-password { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: #00e5ff; font-size: 20px; cursor: pointer; }
+    .phone-container { display: flex; gap: 10px; }
+    .phone-container select { width: 110px; padding-left: 16px; }
+    button {
+      width: 100%; padding: 16px; margin: 12px 0; border: none; border-radius: 12px;
+      font-size: 16px; font-weight: 600; cursor: pointer;
+    }
+    .btn-entrar { background: linear-gradient(90deg, #00c3ff, #6a5cff); color: white; }
+    .btn-google { background: #ffffff; color: #3c4043; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .or { text-align: center; margin: 20px 0; color: #aaa; }
+    .toggle-link { text-align: center; margin-top: 15px; color: #00e5ff; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="logo">
+      <i class="fa-solid fa-shield-halved"></i> JulsonGames
+    </div>
+    <h1 id="formTitle">Iniciar Sessão</h1>
+
+    <form id="loginForm">
+      <div class="input-group">
+        <i class="fa-solid fa-user icon"></i>
+        <input type="text" id="nome" placeholder="Nome completo" required>
+      </div>
+
+      <div id="registerFields" style="display:none;">
+        <div class="phone-container">
+          <div class="input-group" style="width: 110px;">
+            <i class="fa-solid fa-globe icon"></i>
+            <select id="countryCode">
+              <option value="+258">🇲🇿 +258</option>
+              <option value="+355">🇦🇱 +355</option>
+              <option value="+49">🇩🇪 +49</option>
+            </select>
+          </div>
+
+          <div class="input-group" style="flex:1">
+            <i class="fa-solid fa-phone icon"></i>
+            <input type="tel" id="telefone" placeholder="Número de telefone">
+          </div>
+        </div>
+
+        <div class="input-group">
+          <i class="fa-solid fa-envelope icon"></i>
+          <input type="email" id="email" placeholder="Gmail">
+        </div>
+      </div>
+
+      <div class="input-group">
+        <i class="fa-solid fa-lock icon"></i>
+        <input type="password" id="senha" placeholder="Senha" required>
+        <i class="fa-solid fa-eye toggle-password" id="togglePassword"></i>
+      </div>
+
+      <button type="submit" class="btn-entrar" id="submitBtn">ENTRAR</button>
+    </form>
+
+    <div class="or">ou</div>
+
+    <button id="googleLogin" class="btn-google">
+      <img src="https://developers.google.com/identity/images/g-logo.png" width="22" alt="Google">
+      Entrar com Google
+    </button>
+
+    <p class="toggle-link" id="toggleLink">
+      Não tens conta? <strong>Criar conta</strong>
+    </p>
+  </div>
+
+  <script>
+    let isRegisterMode = false;
+
+    // Toggle Login / Registro
+    document.getElementById('toggleLink').addEventListener('click', () => {
+
+      isRegisterMode = !isRegisterMode;
+
+      const title = document.getElementById('formTitle');
+      const btn = document.getElementById('submitBtn');
+      const fields = document.getElementById('registerFields');
+
+      if (isRegisterMode) {
+
+        title.textContent = "Criar Conta";
+        btn.textContent = "CRIAR CONTA";
+        fields.style.display = "block";
+
+        document.getElementById('toggleLink').innerHTML =
+          'Já tens conta? <strong>Iniciar sessão</strong>';
+
+      } else {
+
+        title.textContent = "Iniciar Sessão";
+        btn.textContent = "ENTRAR";
+        fields.style.display = "none";
+
+        document.getElementById('toggleLink').innerHTML =
+          'Não tens conta? <strong>Criar conta</strong>';
+      }
+    });
+
+    // Mostrar senha
+    document.getElementById('togglePassword').addEventListener('click', function() {
+
+      const senha = document.getElementById('senha');
+
+      if (senha.type === 'password') {
+
+        senha.type = 'text';
+        this.classList.replace('fa-eye', 'fa-eye-slash');
+
+      } else {
+
+        senha.type = 'password';
+        this.classList.replace('fa-eye-slash', 'fa-eye');
+      }
+    });
+
+    // LOGIN / REGISTRO
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+
+      e.preventDefault();
+
+      const nome = document.getElementById('nome').value.trim();
+      const senha = document.getElementById('senha').value;
+
+      // ================= REGISTRO =================
+      if (isRegisterMode) {
+
+        const email = document.getElementById('email').value.trim();
+        const telefone =
+          document.getElementById('countryCode').value +
+          document.getElementById('telefone').value;
+
+        if (!email.includes('@')) {
+          return alert("❌ Email inválido!");
+        }
+
+        try {
+
+          const response = await fetch('/api/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              nome,
+              email,
+              telefone,
+              senha
+            })
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+
+            localStorage.setItem('userName', nome);
+
+            alert("✅ Conta criada com sucesso!");
+
+            window.location.href = "home.html";
+
+          } else {
+
+            alert("❌ " + data.message);
+          }
+
+        } catch (err) {
+
+          alert("❌ Erro ao conectar com servidor!");
+          console.log(err);
+
+        }
+
+      }
+
+      // ================= LOGIN =================
+      else {
+
+        try {
+
+          const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              nome,
+              senha
+            })
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+
+            localStorage.setItem('userName', data.user.nome);
+
+            alert(`✅ Bem-vindo, ${data.user.nome}!`);
+
+            window.location.href = "home.html";
+
+          } else {
+
+            alert("❌ " + data.message);
+          }
+
+        } catch (err) {
+
+          alert("❌ Erro ao conectar com servidor!");
+          console.log(err);
+
+        }
+      }
+    });
+
+    // Google
+    document.getElementById('googleLogin').addEventListener('click', () => {
+
+      alert("❌ Erro 404\n\nLogin Google indisponível por motivos justos.");
+
+    });
+  </script>
+
+  <footer style="position: fixed; bottom: 15px; left: 0; right: 0; text-align: center; color: #555; font-size: 13px;">
+    &copy; 2026 Criado por Julson Julião Paiva<br>
+    Moçambique 🇲🇿 Todos os direitos reservados.
+  </footer>
+
+</body>
+</html>

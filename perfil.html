@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Perfil - JulsonGames</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0a001f, #1a0033);
+      color: #fff;
+    }
+
+    header {
+      background: rgba(10, 15, 45, 0.95);
+      backdrop-filter: blur(20px);
+      padding: 15px 25px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: 700;
+      color: #00f5ff;
+    }
+
+    .perfil-container {
+      max-width: 520px;
+      margin: 40px auto;
+      background: rgba(15, 23, 50, 0.9);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(0, 229, 255, 0.35);
+      border-radius: 24px;
+      padding: 35px 30px;
+      text-align: center;
+    }
+
+    .profile-pic {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 6px solid #00f5ff;
+      box-shadow: 0 0 30px rgba(0, 245, 255, 0.5);
+      object-fit: cover;
+      margin-bottom: 25px;
+    }
+
+    h1 {
+      color: #00f5ff;
+      margin-bottom: 30px;
+    }
+
+    .info {
+      text-align: left;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 25px;
+      border-radius: 16px;
+      margin-bottom: 30px;
+      line-height: 2.1;
+    }
+
+    .info p {
+      font-size: 17px;
+      margin: 14px 0;
+    }
+
+    .info strong {
+      color: #00f5ff;
+      width: 120px;
+      display: inline-block;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 16px;
+      margin: 12px 0;
+      border: none;
+      border-radius: 50px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .btn-depositar {
+      background: linear-gradient(90deg, #00ff88, #00cc66);
+      color: #000;
+    }
+
+    .btn-key {
+      background: linear-gradient(90deg, #ffaa00, #ff7700);
+      color: #000;
+    }
+
+    .btn-voltar {
+      background: transparent;
+      border: 2px solid #00f5ff;
+      color: #00f5ff;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <i class="fa-solid fa-shield-halved"></i> JulsonGames
+    </div>
+    <div onclick="window.location.href='home.html'" style="cursor:pointer; font-size:24px;">
+      <i class="fas fa-home"></i>
+    </div>
+  </header>
+
+  <div class="perfil-container">
+    <img src="https://i.ibb.co/fV3h0myq/c8d9107cb7ac.jpg" alt="Perfil" class="profile-pic">
+    
+    <h1>Meu Perfil</h1>
+
+    <div class="info">
+      <p><strong>Nome:</strong> <span id="nomePerfil">-</span></p>
+      <p><strong>Gmail:</strong> <span id="emailPerfil">-</span></p>
+      <p><strong>Telefone:</strong> <span id="telefonePerfil">-</span></p>
+      <p><strong>Saldo Actual:</strong> <span id="saldoPerfil" style="color:#00ff88; font-weight:bold;">0.00 MZN</span></p>
+    </div>
+
+    <button class="btn btn-depositar" onclick="depositarSaldoNormal()">
+      💰 Obter Key grátis (WhatsApp)
+    </button>
+
+    <button class="btn btn-key" onclick="window.location.href='saldo.html'">
+      🔑 Depositar com Key
+    </button>
+
+    <button class="btn btn-voltar" onclick="window.location.href='home.html'">
+      ← Voltar ao Início
+    </button>
+  </div>
+
+  <script>
+async function carregarPerfil() {
+
+  const userName = localStorage.getItem('userName');
+
+  if (!userName) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  try {
+
+    const response = await fetch(`http://localhost:8080/api/perfil/${userName}`);
+
+    const data = await response.json();
+
+    if (!data.success) {
+      alert("Usuário não encontrado!");
+      return;
+    }
+
+    const user = data.user;
+
+    document.getElementById('nomePerfil').textContent = user.nome;
+    document.getElementById('emailPerfil').textContent = user.email;
+    document.getElementById('telefonePerfil').textContent = user.telefone;
+
+    document.getElementById('saldoPerfil').textContent =
+      Number(user.saldo || 0).toFixed(2) + " MZN";
+
+    // Adicionar data criação
+    const info = document.querySelector('.info');
+
+    info.innerHTML += `
+      <p>
+        <strong>Criado:</strong>
+        ${user.data}
+      </p>
+    `;
+
+  } catch (err) {
+
+    alert("Erro ao carregar perfil!");
+
+    console.log(err);
+  }
+}
+
+function depositarSaldoNormal() {
+
+  const mensagem =
+    "Olá Julson, quero Obter uma Key free do site JulsonGames..!";
+
+  window.open(
+    `https://wa.me/+258876553746?text=${encodeURIComponent(mensagem)}`,
+    '_blank'
+  );
+}
+
+window.onload = carregarPerfil;
+</script>

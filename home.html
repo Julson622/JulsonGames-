@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JulsonGames - Home</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Segoe UI',sans-serif;
+    }
+
+    body{
+      min-height:100vh;
+      background:linear-gradient(135deg,#0a001f,#1a0033);
+      color:#fff;
+      overflow-x:hidden;
+    }
+
+    header{
+      background:rgba(10,15,45,0.95);
+      backdrop-filter:blur(20px);
+      padding:15px 20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      position:sticky;
+      top:0;
+      z-index:100;
+      border-bottom:1px solid rgba(0,229,255,0.3);
+    }
+
+    .left-header{
+      display:flex;
+      align-items:center;
+      gap:15px;
+    }
+
+    .hamburger{
+      font-size:30px;
+      cursor:pointer;
+      color:#00f5ff;
+    }
+
+.modal{
+  display:none;
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:rgba(0,0,0,0.95);
+  justify-content:center;
+  align-items:center;
+  z-index:1000;
+}
+
+.box{
+  background:#0f1732;
+  padding:20px;
+  width:92%;
+  max-width:460px;
+  border-radius:16px;
+  max-height:92vh;
+  overflow-y:auto;
+  border:1px solid rgba(0,229,255,0.3);
+}
+    .logo{
+      font-size:26px;
+      font-weight:700;
+      color:#00f5ff;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .perfil{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      cursor:pointer;
+      background:rgba(255,255,255,0.06);
+      padding:8px 14px;
+      border-radius:50px;
+      border:1px solid rgba(0,229,255,0.25);
+    }
+
+    .perfil img{
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      border:2px solid #00f5ff;
+      object-fit:cover;
+    }
+
+    .perfil-info{
+      text-align:left;
+    }
+
+    .perfil-info h3{
+      font-size:15px;
+      color:#00f5ff;
+    }
+
+    .perfil-info span{
+      font-size:13px;
+      color:#00ff88;
+      font-weight:bold;
+    }
+
+    .welcome{
+      text-align:center;
+      padding:80px 20px 60px;
+    }
+
+    .welcome h1{
+      font-size:42px;
+      background:linear-gradient(90deg,#00f5ff,#a78bff);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      margin-bottom:10px;
+    }
+
+    .services{
+      padding:20px 30px 60px;
+    }
+
+    .service-card{
+      background:rgba(15,23,50,0.8);
+      border:1px solid rgba(0,229,255,0.3);
+      border-radius:20px;
+      padding:25px;
+      margin-bottom:20px;
+      transition:0.4s;
+      cursor:pointer;
+    }
+
+    .service-card:hover{
+      transform:translateY(-10px);
+      border-color:#00f5ff;
+      box-shadow:0 0 25px rgba(0,229,255,0.3);
+    }
+
+    .btn-whatsapp{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      background:#25D366;
+      color:white;
+      padding:16px;
+      border-radius:50px;
+      text-decoration:none;
+      font-weight:bold;
+      margin:30px auto;
+      width:fit-content;
+      box-shadow:0 5px 20px rgba(37,211,102,0.4);
+    }
+
+    /* Sidebar */
+
+    .sidebar{
+      position:fixed;
+      top:0;
+      left:-320px;
+      width:320px;
+      height:100%;
+      background:rgba(10,15,45,0.98);
+      backdrop-filter:blur(20px);
+      transition:0.4s;
+      padding:20px;
+      z-index:200;
+      border-right:1px solid rgba(0,229,255,0.3);
+      overflow-y:auto;
+    }
+
+    .sidebar.active{
+      left:0;
+    }
+
+    .sidebar-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:30px;
+    }
+
+    .menu-item{
+      padding:16px 0;
+      border-bottom:1px solid rgba(255,255,255,0.1);
+      cursor:pointer;
+      font-size:17px;
+      transition:0.3s;
+    }
+
+    .menu-item:hover{
+      color:#00f5ff;
+      padding-left:10px;
+    }
+
+    footer{
+      text-align:center;
+      padding:40px 20px;
+      color:#666;
+      font-size:14px;
+    }
+
+  </style>
+</head>
+<body>
+
+<header>
+
+  <div class="left-header">
+
+    <div class="hamburger" onclick="toggleMenu()">
+      ☰
+    </div>
+
+    <div class="logo">
+      <i class="fa-solid fa-shield-halved"></i>
+      JulsonGames
+    </div>
+
+  </div>
+
+  <div class="perfil" onclick="window.location.href='perfil.html'">
+
+    <img
+      src="https://i.ibb.co/fV3h0myq/c8d9107cb7ac.jpg"
+      alt="Perfil"
+    >
+
+    <div class="perfil-info">
+      <h3 id="userName">Jogador</h3>
+      <span id="saldoUser">0.00 MZN</span>
+    </div>
+
+  </div>
+
+</header>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+
+  <div class="sidebar-header">
+    <h2>Menu</h2>
+    <span onclick="toggleMenu()" style="font-size:28px; cursor:pointer;">✕</span>
+  </div>
+
+  <div class="menu-item" onclick="window.location.href='perfil.html'">👤 Meu Perfil</div>
+  <div class="menu-item" onclick="window.location.href='saldo.html'">💰 Meu Saldo</div>
+  <div class="menu-item" onclick="alert('Dono: Julson Julião Paiva\nEmpresa: JulsonGames\nEmail: julsonjuliaopaiva5@gmail.com')">👑 Dono</div>
+  <div class="menu-item" onclick="window.location.href='ganhardinheiro.html'">🪙 Ganhar Dinheiro</div>
+  <div class="menu-item" onclick="alert('JulsonGames criado em Moçambique 🇲🇿')">ℹ️ About</div>
+  <div class="menu-item" onclick="window.open('https://whatsapp.com/channel/0029Vb6mQ1r9mrGlaAOnFX2c','_blank')">👥 Comunidade Oficial</div>
+  <div class="menu-item" onclick="window.location.href='JulsonGames.html'">🎮 JulsonGames</div>
+  <div class="menu-item" onclick="window.location.href='JulsonSensi.html'">🔥 JulsonSensi</div>
+  <div class="menu-item" onclick="window.location.href='JulsonNet.html'">🌐 JulsonNet</div>
+  <div class="menu-item" onclick="abrirPainelAdmin()">📊 Atividade do Site</div>
+  <div class="menu-item" onclick="logout()" style="color:#ff5555;">🚪 Terminar Sessão</div>
+
+</div> <!-- <- FECHA AQUI, ANTES DOS MODAIS -->
+
+<!-- MODAL ADMIN LOGIN -->
+<div class="modal" id="modalAdminLogin" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); justify-content:center; align-items:center; z-index:1000;">
+  <div class="box" style="background:#0f1732; padding:30px; width:90%; max-width:400px; border-radius:16px; border:1px solid #00f5ff;">
+    <h2 style="color:#00f5ff; text-align:center; margin-bottom:20px;">🔐 Painel Admin</h2>
+    <p style="color:#aaa; text-align:center; margin-bottom:20px;">Digite a Key de Administrador</p>
+    <input type="password" id="adminKey" placeholder="🔑 Key Admin" style="width:100%; padding:14px; border:none; border-radius:10px; background:#111a35; color:#fff; font-size:16px; margin-bottom:15px;">
+    <div style="display:flex; gap:10px;">
+      <button onclick="verificarKeyAdmin()" style="flex:1; background:#00ff88; color:#000; padding:14px; border:none; border-radius:10px; font-weight:bold; cursor:pointer;">Entrar</button>
+      <button onclick="fecharModalAdmin()" style="flex:1; background:#ff4444; color:#fff; padding:14px; border:none; border-radius:10px; font-weight:bold; cursor:pointer;">Cancelar</button>
+    </div>
+    <p id="erroKey" style="color:#ff4444; text-align:center; margin-top:10px; display:none;">Key incorreta!</p>
+  </div>
+</div>
+
+<!-- MODAL PAINEL ADMIN -->
+<div class="modal" id="modalPainelAdmin" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); justify-content:center; align-items:center; z-index:1000;">
+  <div class="box" style="background:#0f1732; padding:25px; width:95%; max-width:600px; border-radius:16px; border:1px solid #00f5ff; max-height:90vh; overflow-y:auto;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+      <h2 style="color:#00f5ff;">📊 Atividade do Site</h2>
+      <span onclick="fecharPainelAdmin()" style="font-size:28px; cursor:pointer; color:#ff4444;">✕</span>
+    </div>
+    
+    <div style="background:rgba(0,255,136,0.1); padding:15px; border-radius:10px; margin-bottom:20px;">
+      <h3 style="color:#00ff88; margin-bottom:10px;">Total de Atividades: <span id="totalAtividades">0</span></h3>
+      <p style="color:#aaa; font-size:14px;">Dia mais movimentado: <strong id="diaPico">-</strong></p>
+    </div>
+
+    <canvas id="graficoAdmin" style="height:350px;"></canvas>
+
+    <div id="listaHoje" style="margin-top:25px; background:rgba(0,255,136,0.05); padding:15px; border-radius:10px; border:1px solid rgba(0,255,136,0.2);">
+      <h4 style="color:#00ff88; margin-bottom:10px;">📝 Atividades de Hoje</h4>
+      <div id="detalhesHoje" style="font-size:13px; color:#aaa; max-height:200px; overflow-y:auto;">
+        Carregando...
+      </div>
+    </div>
+
+    <button onclick="limparLogs()" style="margin-top:20px; width:100%; background:#ff4444; color:#fff; padding:12px; border:none; border-radius:10px; font-weight:bold; cursor:pointer;">🗑️ Limpar Logs</button>
+  </div>
+</div>
+
+<!-- WELCOME -->
+<div class="welcome">
+
+  <h1>
+    Bem-vindo de volta,
+    <span id="welcomeUser">Jogador</span> 🎮
+  </h1>
+
+  <p style="font-size:20px; color:#a5b4fc;">
+    Pronto para dominar hoje?
+  </p>
+
+</div>
+
+<!-- SERVIÇOS -->
+<div class="services">
+
+  <div
+    class="service-card"
+    onclick="window.location.href='JulsonSensi.html'"
+  >
+    <h2>🔥 JulsonSensi</h2>
+
+    <p>
+      <strong>Sensibilidade insana para Free Fire</strong>
+      <br>
+      Configurações profissionais com o sabor JulsonSensi.
+    </p>
+  </div>
+
+  <div
+    class="service-card"
+    onclick="window.location.href='JulsonGames.html'"
+  >
+    <h2>🎮 JulsonGames</h2>
+
+    <p>
+      Loja de jogos, contas verificadas, diamantes,
+      recargas e itens exclusivos.
+    </p>
+  </div>
+
+  <div
+    class="service-card"
+    onclick="window.location.href='JulsonNet.html'"
+  >
+    <h2>🌐 JulsonNet</h2>
+
+    <p>
+      Internet, VPN, Netflix, Spotify,
+      Tempest e serviços digitais.
+    </p>
+  </div>
+
+</div>
+
+<a
+  href="https://whatsapp.com/channel/0029Vb6mQ1r9mrGlaAOnFX2c"
+  target="_blank"
+  class="btn-whatsapp"
+>
+  <i class="fab fa-whatsapp"></i>
+  Entrar no Canal Oficial
+</a>
+
+<footer>
+  &copy; 2026 Criado por Julson Julião Paiva<br>
+  Moçambique 🇲🇿 • Todos os direitos reservados.
+</footer>
+
+<script>
+
+async function carregarUsuario() {
+  const userName = localStorage.getItem('userName'); // MAIÚSCULO S e N
+
+  if (!userName) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  try {
+    const response = await fetch(`http://127.0.0.1:8080/api/perfil/${encodeURIComponent(userName)}`);
+    const data = await response.json();
+
+    if (!data.success) {
+      alert("Usuário não encontrado!");
+      window.location.href = "login.html";
+      return;
+    }
+
+    const user = data.user;
+    document.getElementById('userName').textContent = user.nome; // getElementById
+    document.getElementById('welcomeUser').textContent = user.nome;
+    document.getElementById('saldoUser').textContent = Number(user.saldo || 0).toFixed(2) + " MZN";
+
+  } catch (err) {
+    console.log(err);
+    alert("❌ Servidor offline!");
+  }
+}
+
+const ADMIN_KEY = "JULSON2010"; // MAIÚSCULO
+
+function abrirPainelAdmin(){
+  toggleMenu();
+  document.getElementById('modalAdminLogin').style.display = 'flex';
+}
+
+function fecharModalAdmin(){
+  document.getElementById('modalAdminLogin').style.display = 'none';
+  document.getElementById('adminKey').value = '';
+  document.getElementById('erroKey').style.display = 'none';
+}
+
+function fecharPainelAdmin(){
+  document.getElementById('modalPainelAdmin').style.display = 'none';
+}
+
+async function verificarKeyAdmin(){
+  const key = document.getElementById('adminKey').value.trim();
+  
+  if(key === ADMIN_KEY){
+    fecharModalAdmin();
+    document.getElementById('modalPainelAdmin').style.display = 'flex';
+    carregarGraficoAdmin();
+  } else {
+    document.getElementById('erroKey').style.display = 'block';
+  }
+}
+
+async function limparLogs(){
+  if(!confirm('Tem certeza que quer apagar todos os logs?')){
+    return;
+  }
+  
+  const res = await fetch('http://127.0.0.1:8080/api/logs/limpar', {method: 'POST'});
+  const data = await res.json();
+  
+  if(data.success){
+    alert('✅ Logs limpos!');
+    carregarGraficoAdmin(); // recarrega gráfico zerado
+  }
+}
+
+async function carregarGraficoAdmin(){
+  const res = await fetch('http://127.0.0.1:8080/api/stats/semana');
+  const data = await res.json();
+  
+  const dados = [data.seg, data.ter, data.qua, data.qui, data.sex];
+  const total = dados.reduce((a,b) => a+b, 0);
+  document.getElementById('totalAtividades').innerText = total;
+  
+  const dias = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex'];
+  const diaPicoIndex = dados.indexOf(Math.max(...dados));
+  document.getElementById('diaPico').innerText = total > 0 ? `${dias[diaPicoIndex]} com ${dados[diaPicoIndex]} 🔥` : 'Sem dados';
+  
+  const ctx = document.getElementById('graficoAdmin').getContext('2d');
+  if(window.graficoAdminChart) window.graficoAdminChart.destroy();
+  
+  // Cor por quantidade: 0-2 vermelho, 3-5 amarelo, 6+ verde neon
+  const cores = dados.map(val => {
+    if(val >= 6) return 'rgba(0, 255, 136, 1)';
+    if(val >= 3) return 'rgba(255, 193, 7, 1)';
+    return 'rgba(255, 68, 68, 1)';
+  });
+  
+  const bordaCores = dados.map(val => {
+    if(val >= 6) return '#00ff88';
+    if(val >= 3) return '#ffc107';
+    return '#ff4444';
+  });
+  
+  window.graficoAdminChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: dias,
+      datasets: [{
+        label: 'Atividades',
+        data: dados,
+        backgroundColor: cores,
+        borderColor: bordaCores,
+        borderWidth: 3,
+        borderRadius: 8,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { 
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(15, 23, 50, 0.95)',
+          titleColor: '#00f5ff',
+          bodyColor: '#fff',
+          borderColor: '#00f5ff',
+          borderWidth: 2,
+          callbacks: {
+            label: (ctx) => `${ctx.parsed.y} pessoa(s) hoje`
+          }
+        }
+      },
+      scales: {
+        y: { 
+          beginAtZero: true,
+          ticks: { 
+            color: '#00f5ff',
+            stepSize: 1 // força mostrar 1, 2, 3...
+          }, 
+          grid: { color: 'rgba(0, 245, 255, 0.1)' } 
+        },
+        x: { 
+          ticks: { color: '#fff', font: { weight: 'bold' } }, 
+          grid: { display: false } 
+        }
+      }
+    }
+  });
+  
+  // CARREGA LISTA DE QUEM VISITOU HOJE
+  carregarDetalhesHoje();
+}
+
+async function carregarDetalhesHoje(){
+  const res = await fetch('http://127.0.0.1:8080/api/logs/hoje');
+  const logs = await res.json();
+  
+  if(logs.length === 0){
+    document.getElementById('detalhesHoje').innerHTML = '<p style="color:#666;">Ninguém visitou hoje ainda 😢</p>';
+    return;
+  }
+  
+  let html = '';
+  logs.forEach(log => {
+    const corTipo = log.tipo === 'login' ? '#00ff88' : '#00f5ff';
+    html += `
+      <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+        <span><span style="color:${corTipo};">●</span> ${log.user}</span>
+        <span style="color:#888;">${log.hora} - ${log.tipo}</span>
+      </div>
+    `;
+  });
+  
+  document.getElementById('detalhesHoje').innerHTML = html;
+}
+
+function toggleMenu() {
+  document.getElementById('sidebar').classList.toggle('active');
+}
+
+document.addEventListener('click', (e) => {
+  const sidebar = document.getElementById('sidebar');
+  if (!e.target.closest('.sidebar') && !e.target.closest('.hamburger')) {
+    sidebar.classList.remove('active');
+  }
+});
+
+function logout() {
+  localStorage.removeItem('userName');
+  window.location.href = "login.html";
+}
+
+window.onload = carregarUsuario;
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JulsonGames</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',sans-serif;
+}
+
+body{
+  background:linear-gradient(135deg,#0a001f,#1a0033);
+  color:#fff;
+  min-height:100vh;
+}
+
+header{
+  display:flex;
+  justify-content:space-between;
+  padding:15px;
+  background:rgba(10,15,45,0.95);
+  border-bottom:1px solid rgba(0,229,255,0.3);
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.logo{
+  font-size:24px;
+  color:#00f5ff;
+  font-weight:bold;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.perfil{
+  background:rgba(255,255,255,0.08);
+  padding:8px 14px;
+  border-radius:30px;
+  color:#00ff88;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+/* PESQUISA */
+.search-bar{
+  padding:15px 20px;
+  background:rgba(15,23,50,0.8);
+}
+
+.search-bar input{
+  width:100%;
+  padding:12px 16px;
+  border:none;
+  border-radius:30px;
+  background:#111a35;
+  color:#fff;
+  font-size:16px;
+}
+
+/* GRID */
+.container{
+  padding:10px 20px;
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap:16px;
+}
+
+.card{
+  background:rgba(15,23,50,0.95);
+  border:1px solid rgba(0,229,255,0.3);
+  border-radius:16px;
+  overflow:hidden;
+  cursor:pointer;
+  transition:0.3s;
+  height:100%;
+}
+
+.card:hover{
+  transform:translateY(-8px);
+  border-color:#00ff88;
+  box-shadow:0 10px 20px rgba(0,255,136,0.2);
+}
+
+.card img{
+  width:100%;
+  height:160px;
+  object-fit:cover;
+}
+
+.info{
+  padding:12px;
+}
+
+.info h3{
+  color:#00f5ff;
+  font-size:16px;
+  margin-bottom:6px;
+}
+
+.preco{
+  color:#00ff88;
+  font-weight:bold;
+  margin:6px 0;
+}
+
+.votos{
+  display:flex;
+  gap:12px;
+  margin-top:8px;
+  font-size:14px;
+}
+
+.voto{
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:4px;
+  transition:0.2s;
+  user-select:none;
+}
+
+.voto:hover{
+  transform:scale(1.2);
+}
+
+.voto.active-like{ color:#00ff88; }
+.voto.active-dislike{ color:#ff4444; }
+
+/* MODAL */
+.modal{
+  display:none;
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:rgba(0,0,0,0.92);
+  justify-content:center;
+  align-items:center;
+  z-index:1000;
+}
+
+.box{
+  background:#0f1732;
+  padding:20px;
+  width:92%;
+  max-width:460px;
+  border-radius:16px;
+  max-height:92vh;
+  overflow-y:auto;
+}
+
+.carousel{
+  position:relative;
+  height:220px;
+  border-radius:12px;
+  overflow:hidden;
+  margin-bottom:15px;
+}
+
+.carousel img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  position:absolute;
+  opacity:0;
+  transition:0.8s;
+}
+
+.carousel img.active{ opacity:1; }
+
+.btns{
+  display:flex;
+  gap:10px;
+  margin-top:20px;
+}
+
+button{
+  flex:1;
+  padding:13px;
+  border:none;
+  border-radius:10px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.confirm{background:#00ff88; color:#000;}
+.cancel{background:#ff4444; color:#fff;}
+.download{background:#00aaff; color:#fff;}
+
+.result{
+  margin-top:15px;
+  color:#00ff88;
+  font-size:15px;
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">🎮 JulsonGames</div>
+  <div class="perfil">💰 <span id="saldo">0</span> MZN</div>
+</header>
+
+<div class="search-bar">
+  <input type="text" id="searchInput" placeholder="🔎 Pesquisar jogos..." onkeyup="filtrarJogos()">
+</div>
+
+<div class="container" id="jogos-container"></div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="box">
+    <h2 id="game-title"></h2>
+
+    <div class="carousel" id="carousel"></div>
+
+    <div class="info">
+      <p><strong>Plataforma:</strong> <span id="plataforma"></span></p>
+      <p><strong>Tamanho:</strong> <span id="tamanho"></span></p>
+      <p id="descricao"></p>
+      <p class="preco" id="preco-info"></p>
+    </div>
+
+    <div class="btns">
+      <button class="confirm" id="btn-confirmar" onclick="confirmarCompra()">Confirmar Compra</button>
+      <button class="cancel" onclick="fecharModal()">Cancelar</button>
+    </div>
+
+    <div id="resultado" class="result"></div>
+  </div>
+</div>
+
+<script>
+
+const API = ""; // Local vazio. No Render: "https://julson-games.onrender.com"
+
+
+async function loadSaldo(){
+  const user = localStorage.getItem("userName") || "demo";
+  try {
+    const r = await fetch(`${API}/api/perfil/${user}`);
+    const d = await r.json();
+    document.getElementById("saldo").innerText = Number(d.user.saldo || 0).toFixed(2);
+  } catch(e){}
+}
+
+async function carregarJogos(filtro = ""){
+  try {
+    const res = await fetch(`${API}/jogos.json`);
+    let jogos = await res.json();
+
+    if(filtro){
+      jogos = jogos.filter(j =>
+        j.nome.toLowerCase().includes(filtro.toLowerCase())
+      );
+    }
+
+    const container = document.getElementById("jogos-container");
+    container.innerHTML = "";
+
+    if(jogos.length === 0){
+      container.innerHTML = `<p style="color:#ff4444; text-align:center; grid-column:1/-1; padding:30px;">Jogo indisponível no momento 😔</p>`;
+      return;
+    }
+
+    const votosPromises = jogos.map(async (jogo) => {
+  const id = jogo.nome.toLowerCase().replace(/\s/g, '');
+  const userId = localStorage.getItem("userName") || "demo";
+  
+  try {
+    const resVotos = await fetch(`${API}/api/votos/${id}?user=${userId}`);
+    const dataVotos = await resVotos.json();
+    return { jogo, id, dataVotos };
+  } catch(e) {
+    return { jogo, id, dataVotos: { likes: 0, dislikes: 0, meuVoto: null } };
+  }
+});
+
+const jogosComVotos = await Promise.all(votosPromises);
+
+jogosComVotos.forEach(({ jogo, id, dataVotos }) => {
+  const likeClass = dataVotos.meuVoto === 'like'? 'active-like' : '';
+  const dislikeClass = dataVotos.meuVoto === 'dislike'? 'active-dislike' : '';
+  
+  const card = document.createElement("div");
+  card.className = "card";
+  card.innerHTML = `
+    <img src="${jogo.icone}" alt="${jogo.nome}">
+    <div class="info">
+      <h3>${jogo.nome}</h3>
+      <p class="preco">${jogo.custo === "Grátis"? "🎁 Grátis" : `💰 ${jogo.custo}`}</p>
+      <div class="votos">
+        <span class="voto ${likeClass}" onclick="votar('${id}', true, event)">👍 <span id="like-${id}">${dataVotos.likes}</span></span>
+        <span class="voto ${dislikeClass}" onclick="votar('${id}', false, event)">👎 <span id="dislike-${id}">${dataVotos.dislikes}</span></span>
+      </div>
+    </div>
+  `;
+  card.onclick = (e) => {
+    if(!e.target.closest('.voto')) abrirModal(jogo);
+  };
+  container.appendChild(card);
+});
+
+  } catch(e){
+    document.getElementById("jogos-container").innerHTML = `<p style="color:red;text-align:center;grid-column:1/-1">Erro ao carregar jogos.json</p>`;
+  }
+}
+
+async function votar(id, isLike, e){
+  e.stopPropagation();
+  const userId = localStorage.getItem("userName") || "demo";
+  const tipo = isLike? 'like' : 'dislike';
+
+  try {
+    const r = await fetch('${API}/api/voto', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ userId, jogoId: id, tipo })
+    });
+    const data = await r.json();
+
+    document.getElementById(`like-${id}`).textContent = data.likes;
+    document.getElementById(`dislike-${id}`).textContent = data.dislikes;
+
+    const container = e.target.closest('.votos');
+    container.querySelectorAll('.voto').forEach(v => {
+      v.classList.remove('active-like', 'active-dislike');
+    });
+    if(data.meuVoto === 'like') container.children[0].classList.add('active-like');
+    if(data.meuVoto === 'dislike') container.children[1].classList.add('active-dislike');
+
+  } catch(err){
+  console.log("ERRO VOTO:", err);
+  alert("Erro ao votar: " + err.message);
+}
+}
+
+function filtrarJogos(){
+  const termo = document.getElementById("searchInput").value;
+  carregarJogos(termo);
+}
+
+let jogoAtual = null;
+
+async function abrirModal(jogo){
+  jogoAtual = jogo;
+  document.getElementById("game-title").innerText = jogo.nome;
+  document.getElementById("plataforma").innerText = jogo.plataforma;
+  document.getElementById("tamanho").innerText = jogo.tamanho;
+  document.getElementById("descricao").innerText = jogo.descricao;
+
+  const precoEl = document.getElementById("preco-info");
+  if(jogo.custo === "Grátis"){
+  precoEl.innerHTML = "🎁 <strong>Grátis</strong>";
+  const idJogo = jogo.nome.toLowerCase().replace(/\s/g, '');
+  const userId = localStorage.getItem("userName") || "demo";
+  
+  document.getElementById("btn-confirmar").innerText = "📤 Compartilhar 0/5";
+  document.getElementById("btn-confirmar").onclick = () => compartilharWhats(idJogo, jogo.download);
+
+  // Cria barra se não existir
+  if(!document.getElementById("barra-share")){
+    document.getElementById("resultado").insertAdjacentHTML('beforebegin', `
+      <div id="barra-share" style="display:none; margin-top:15px;">
+        <div style="background:#111; height:10px; border-radius:5px; overflow:hidden;">
+          <div id="progress-share" style="background:#00ff88; height:100%; width:0%; transition:0.3s;"></div>
+        </div>
+        <p style="font-size:12px; color:#aaa; margin-top:5px; text-align:center;">Compartilha 5x no WhatsApp</p>
+      </div>
+    `);
+  }
+
+  // Busca quantas vezes já compartilhou
+  const res = await fetch(`${API}/api/jogo/${idJogo}?user=${userId}`);
+  const data = await res.json();
+  const count = data.shareCount || 0;
+  
+  if(count > 0){
+    document.getElementById('barra-share').style.display = 'block';
+    document.getElementById('progress-share').style.width = (count*20)+'%';
+    document.getElementById('btn-confirmar').innerText = `📤 Compartilhar ${count}/5`;
+  }
+  if(count >= 5){
+    document.getElementById('btn-confirmar').innerText = "⬇ BAIXAR AGORA";
+    document.getElementById('btn-confirmar').onclick = () => window.open(jogo.download, '_blank');
+  }
+} else {
+  precoEl.innerHTML = `💰 Custo: <strong>${jogo.custo}</strong>`;
+  document.getElementById("btn-confirmar").innerText = "Confirmar Compra";
+  document.getElementById("btn-confirmar").onclick = confirmarCompra;
+  document.getElementById("barra-share")?.remove(); // tira barra se for pago
+}
+
+  const carousel = document.getElementById("carousel");
+  carousel.innerHTML = "";
+  jogo.imagens.forEach((img, i) => {
+    const image = document.createElement("img");
+    image.src = img;
+    if(i === 0) image.classList.add("active");
+    carousel.appendChild(image);
+  });
+
+  startCarousel();
+  document.getElementById("modal").style.display = "flex";
+  document.getElementById("resultado").innerHTML = "";
+}
+
+let carouselInterval;
+function startCarousel(){
+  clearInterval(carouselInterval);
+  let index = 0;
+  const imgs = document.querySelectorAll("#carousel img");
+  if(imgs.length === 0) return;
+  carouselInterval = setInterval(() => {
+    imgs[index].classList.remove("active");
+    index = (index + 1) % imgs.length;
+    imgs[index].classList.add("active");
+  }, 5000);
+}
+
+function fecharModal(){
+  document.getElementById("modal").style.display = "none";
+  clearInterval(carouselInterval);
+}
+
+async function compartilharWhats(idJogo, linkDownload){
+  const userId = localStorage.getItem("userName") || "demo";
+
+  const r = await fetch('${API}/api/share', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ userId, jogoId: idJogo })
+  });
+  const data = await r.json();
+  const count = data.count;
+
+  if(count <= 5){
+    const msg = encodeURIComponent("Olá amigo, siga o canal por favor https://whatsapp.com/channel/0029Vb6mQ1r9mrGlaAOnFX2c");
+    window.open("https://wa.me/?text="+msg, "_blank");
+  }
+
+  document.getElementById('barra-share').style.display = 'block';
+  document.getElementById('progress-share').style.width = (count*20)+'%';
+  document.getElementById('btn-confirmar').innerText = `📤 Compartilhar ${count}/5`;
+
+  if(count >= 5){
+    document.getElementById('btn-confirmar').innerText = "⬇ BAIXAR AGORA";
+    document.getElementById('btn-confirmar').onclick = () => window.open(linkDownload, '_blank');
+    document.getElementById('resultado').innerHTML = "✅ <strong>Download Liberado!</strong>";
+  }
+}
+
+async function confirmarCompra(){
+  if(!jogoAtual) return;
+
+  const saldoAtual = parseFloat(document.getElementById("saldo").innerText);
+  const custoStr = jogoAtual.custo === "Grátis"? "0" : jogoAtual.custo.replace("MZN","");
+  const custo = parseFloat(custoStr);
+
+  if(custo > 0 && saldoAtual < custo){
+    alert("Saldo insuficiente! 💸");
+    return;
+  }
+
+  if(custo > 0){
+    alert(`Compra realizada com sucesso! -${custo} MZN`);
+    document.getElementById("saldo").innerText = (saldoAtual - custo).toFixed(2);
+  }
+
+  const res = document.getElementById("resultado");
+  res.innerHTML = `
+    ✅ <strong>Download Liberado!</strong><br><br>
+    <a href="${jogoAtual.download}" target="_blank">
+      <button class="download">📥 BAIXAR ${jogoAtual.nome}</button>
+    </a>
+  `;
+}
+
+window.onload = () => {
+  loadSaldo();
+  carregarJogos();
+};
+</script>
+</body>
+</html>

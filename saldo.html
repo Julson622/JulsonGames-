@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saldo - JulsonGames</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Segoe UI',sans-serif;
+    }
+
+    body{
+      min-height:100vh;
+      background:linear-gradient(135deg,#0a001f,#1a0033);
+      color:#fff;
+      padding:20px;
+    }
+
+    .container{
+      max-width:500px;
+      margin:40px auto;
+      background:rgba(15,23,50,0.92);
+      backdrop-filter:blur(20px);
+      border:1px solid rgba(0,229,255,0.4);
+      border-radius:24px;
+      padding:40px 30px;
+      text-align:center;
+    }
+
+    h1{
+      color:#00f5ff;
+      margin-bottom:20px;
+    }
+
+    .saldo-atual{
+      font-size:48px;
+      color:#00ff88;
+      font-weight:bold;
+      margin:20px 0;
+    }
+
+    input{
+      width:100%;
+      padding:18px;
+      margin:25px 0;
+      background:rgba(255,255,255,0.1);
+      border:2px solid #00f5ff;
+      border-radius:12px;
+      color:#fff;
+      font-size:18px;
+      text-align:center;
+      text-transform:uppercase;
+    }
+
+    button{
+      width:100%;
+      padding:16px;
+      margin:10px 0;
+      border:none;
+      border-radius:50px;
+      font-size:17px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+
+    .btn-confirmar{
+      background:linear-gradient(90deg,#00ff88,#00cc66);
+      color:#000;
+    }
+
+    .btn-voltar{
+      background:#333;
+      color:white;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <h1>💰 Meu Saldo</h1>
+
+  <p>Saldo Actual</p>
+
+  <div class="saldo-atual" id="saldoAtual">
+    0.00 MZN
+  </div>
+
+  <h3>Digite a Key de Depósito</h3>
+
+  <input
+    type="text"
+    id="keyInput"
+    placeholder="Ex: JULSONPL52VBN74"
+    maxlength="30"
+  >
+
+  <button class="btn-confirmar" onclick="usarKey()">
+    ✅ Confirmar Depósito
+  </button>
+
+  <button
+    class="btn-voltar"
+    onclick="window.location.href='perfil.html'"
+  >
+    ← Voltar ao Perfil
+  </button>
+
+</div>
+
+<script>
+
+let saldoAtual = 0;
+
+// ================= CARREGAR SALDO =================
+async function carregarSaldo() {
+
+  const userName = localStorage.getItem('userName');
+
+  if (!userName) {
+
+    alert("Faça login primeiro!");
+
+    window.location.href = "login.html";
+
+    return;
+  }
+
+  try {
+
+    const response = await fetch(
+      `http://localhost:8080/api/perfil/${encodeURIComponent(userName)}`
+    );
+
+    const data = await response.json();
+
+    if (!data.success) {
+
+      alert("Usuário não encontrado!");
+
+      return;
+    }
+
+    saldoAtual = Number(data.user.saldo || 0);
+
+    atualizarSaldo();
+
+  } catch (err) {
+
+    console.log(err);
+
+    alert("❌ Servidor offline!");
+
+  }
+}
+
+// ================= MOSTRAR SALDO =================
+function atualizarSaldo() {
+
+  document.getElementById('saldoAtual').textContent =
+    saldoAtual.toFixed(2) + " MZN";
+
+}
+
+// ================= USAR KEY =================
+async function usarKey() {
+
+  const key = document.getElementById('keyInput')
+    .value
+    .trim()
+    .toUpperCase();
+
+  const userName = localStorage.getItem('userName');
+
+  if (!key) {
+
+    alert("Digite uma key!");
+
+    return;
+  }
+
+  try {
+
+    const response = await fetch(
+      'http://localhost:8080/api/usar-key',
+      {
+        method:'POST',
+
+        headers:{
+          'Content-Type':'application/json'
+        },
+
+        body:JSON.stringify({
+          key:key,
+          nome:userName
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if (data.success) {
+
+      saldoAtual = Number(data.saldo);
+
+      atualizarSaldo();
+
+      document.getElementById('keyInput').value = "";
+
+      alert(
+        `✅ ${data.valor} MZN adicionados!\n\n💰 Saldo actual: ${saldoAtual.toFixed(2)} MZN`
+      );
+
+    } else {
+
+      alert("❌ " + data.message);
+
+    }
+
+  } catch (error) {
+
+    console.log(error);
+
+    alert("❌ Erro ao conectar no servidor!");
+
+  }
+}
+
+// ================= INICIAR =================
+window.onload = carregarSaldo;
+
+</script>
+
+</body>
+</html>

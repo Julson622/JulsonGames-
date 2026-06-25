@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JulsonNet</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI',sans-serif;
+}
+
+body{
+  background:linear-gradient(135deg,#001f0a,#00331a);
+  color:#fff;
+}
+
+header{
+  display:flex;
+  justify-content:space-between;
+  padding:15px;
+  background:rgba(10,45,15,0.95);
+  border-bottom:1px solid rgba(0,255,136,0.3);
+}
+
+.logo{
+  font-size:22px;
+  color:#00ff88;
+  font-weight:bold;
+}
+
+.perfil{
+  background:rgba(255,255,255,0.08);
+  padding:8px 12px;
+  border-radius:30px;
+  color:#00ff88;
+  font-weight:bold;
+}
+
+.container{
+  padding:15px;
+}
+
+/* MENU CATEGORIAS */
+.menu-categorias{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+  margin-top:30px;
+}
+
+.btn-categoria{
+  background:rgba(0,255,136,0.15);
+  border:2px solid #00ff88;
+  padding:40px 10px;
+  border-radius:18px;
+  color:#00ff88;
+  font-weight:bold;
+  font-size:18px;
+  cursor:pointer;
+  text-align:center;
+  transition:0.3s;
+}
+
+.btn-categoria:hover{
+  background:#00ff88;
+  color:#001f0a;
+  transform:translateY(-5px);
+  box-shadow:0 0 20px rgba(0,255,136,0.5);
+}
+
+/* SEÇÃO MEGAS */
+#secaoMegas{
+  display:none;
+}
+
+.banner{
+  background:linear-gradient(135deg,rgba(0,255,136,0.2),rgba(0,195,255,0.1));
+  border:2px solid #00ff88;
+  padding:20px;
+  border-radius:16px;
+  text-align:center;
+  margin-bottom:25px;
+}
+
+.banner h2{
+  color:#00ff88;
+  font-size:26px;
+  margin-bottom:8px;
+}
+
+.banner p{
+  font-size:14px;
+  color:#aaa;
+  margin:5px 0;
+}
+
+.btn-whats{
+  display:block;
+  background:#25D366;
+  color:#fff;
+  padding:14px;
+  text-align:center;
+  border-radius:12px;
+  font-weight:bold;
+  text-decoration:none;
+  margin-top:15px;
+  font-size:16px;
+}
+
+/* CARDS GRANDES COM IMAGEM */
+.grid-megas{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:15px;
+}
+
+.card-mega{
+  background:rgba(15,50,23,0.9);
+  border:2px solid rgba(0,255,136,0.3);
+  border-radius:18px;
+  overflow:hidden;
+  transition:0.3s;
+}
+
+.card-mega:hover{
+  border-color:#00ff88;
+  transform:scale(1.02);
+}
+
+.card-mega img{
+  width:100%;
+  height:160px;
+  object-fit:cover;
+}
+
+.card-info{
+  padding:15px;
+  text-align:center;
+}
+
+.card-info h4{
+  color:#00ff88;
+  font-size:22px;
+  margin-bottom:5px;
+}
+
+.card-info p{
+  font-size:18px;
+  color:#fff;
+  font-weight:bold;
+  margin-bottom:12px;
+}
+
+.btn-comprar{
+  background:linear-gradient(135deg,#00c3ff,#0099ff);
+  border:none;
+  padding:14px;
+  border-radius:12px;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  width:100%;
+  font-size:16px;
+}
+
+.btn-voltar{
+  background:#ff4444;
+  border:none;
+  padding:14px;
+  border-radius:12px;
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+  margin-bottom:20px;
+  width:100%;
+  font-size:16px;
+}
+
+/* MODAL */
+.modal{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.9);
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+
+.box{
+  background:#0f3221;
+  padding:25px;
+  width:90%;
+  max-width:420px;
+  border-radius:18px;
+  border:2px solid #00ff88;
+}
+
+input{
+  width:100%;
+  padding:14px;
+  margin:8px 0;
+  border:none;
+  border-radius:12px;
+  background:#111a35;
+  color:#fff;
+  font-size:16px;
+}
+
+.btns{
+  display:flex;
+  gap:12px;
+  margin-top:18px;
+}
+
+button{
+  flex:1;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
+  font-weight:bold;
+  font-size:16px;
+}
+
+.confirm{background:#00ff88;color:#000;}
+.cancel{background:#ff4444;color:#fff;}
+
+footer{
+  text-align:center;
+  padding:25px;
+  color:#00ff88;
+  font-size:14px;
+  opacity:0.7;
+  border-top:1px solid rgba(0,255,136,0.2);
+  margin-top:30px;
+}
+
+@media(min-width:600px){
+.grid-megas{grid-template-columns:repeat(2,1fr);}
+.menu-categorias{grid-template-columns:repeat(4,1fr);}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">🌐 JulsonNet</div>
+  <div class="perfil">💰 <span id="saldo">0.00</span> MZN</div>
+</header>
+
+<div class="container">
+
+  <!-- MENU PRINCIPAL -->
+  <div id="menuPrincipal">
+    <h2 style="text-align:center; color:#00ff88; margin:30px 0; font-size:28px;">Escolha a Categoria</h2>
+
+    <div class="menu-categorias">
+      <button class="btn-categoria" onclick="abrirMegas()">📦<br>Megas VODACOM</button>
+      <button class="btn-categoria" onclick="abrirVPN()">🚀<br>Melhor VPN</button>
+     <button class="btn-categoria" onclick="abrirAPKs()">🎬<br>APKs Filmes</button>
+      <button class="btn-categoria" onclick="alert('Em breve: Outros 💎')">💎<br>Outros</button>
+    </div>
+  </div>
+  
+
+  <!-- SEÇÃO MEGAS -->
+  <div id="secaoMegas">
+    <button class="btn-voltar" onclick="voltarMenu()">⬅ Voltar ao Menu</button>
+
+    <div class="banner">
+      <h2>📦 MEGAS ACESSÍVEIS</h2>
+      <p>🕋 Tabela Mubarak atualizada 24/06/2026</p>
+      <p>⚡ Compra rápida e gasta saldo na hora</p>
+      <a href="https://wa.me/+258862434431" target="_blank" class="btn-whats">💬 Falar com Vendedor</a>
+    </div>
+
+    <div class="grid-megas">
+      <div class="card-mega">
+        <img src="https://i.ibb.co/WN5NCn84/a27e25776034.jpg" alt="Mega 400MB">
+        <div class="card-info">
+          <h4>400MB</h4>
+          <p>10 MT - Diário</p>
+          <button class="btn-comprar" onclick="comprar('Diário 400MB 10MT')">Comprar Agora</button>
+        </div>
+      </div>
+
+      <div class="card-mega">
+        <img src="https://i.ibb.co/WN5NCn84/a27e25776034.jpg" alt="Mega 1GB">
+        <div class="card-info">
+          <h4>1GB</h4>
+          <p>25 MT - Diário</p>
+          <button class="btn-comprar" onclick="comprar('Diário 1GB 25MT')">Comprar Agora</button>
+        </div>
+      </div>
+
+      <div class="card-mega">
+        <img src="https://i.ibb.co/WN5NCn84/a27e25776034.jpg" alt="Mega 2GB">
+        <div class="card-info">
+          <h4>2GB</h4>
+          <p>50 MT - Diário</p>
+          <button class="btn-comprar" onclick="comprar('Diário 2GB 50MT')">Comprar Agora</button>
+        </div>
+      </div>
+
+      <div class="card-mega">
+        <img src="https://i.ibb.co/WN5NCn84/a27e25776034.jpg" alt="Mega 4.2GB">
+        <div class="card-info">
+          <h4>4.2GB</h4>
+          <p>100 MT - Diário</p>
+          <button class="btn-comprar" onclick="comprar('Diário 4.2GB 100MT')">Comprar Agora</button>
+        </div>
+      </div>
+
+      <div class="card-mega">
+        <img src="https://i.ibb.co/WN5NCn84/a27e25776034.jpg" alt="Mega 6GB">
+        <div class="card-info">
+          <h4>6GB</h4>
+          <p>220 MT - Mensal</p>
+          <button class="btn-comprar" onclick="comprar('Mensal 6GB 220MT')">Comprar Agora</button>
+        </div>
+      </div>
+
+      <div class="card-mega">
+        <img src="https://i.ibb.co/WN5NCn84/a27e25776034.jpg" alt="Mega 15GB">
+        <div class="card-info">
+          <h4>15GB</h4>
+          <p>450 MT - Mensal</p>
+          <button class="btn-comprar" onclick="comprar('Mensal 15GB 450MT')">Comprar Agora</button>
+        </div>
+      </div>
+    </div>
+    </div>
+
+
+<!-- SEÇÃO APKs FILMES -->
+<div id="secaoAPKs" style="display:none;">
+  <button class="btn-voltar" onclick="voltarMenu()">⬅ Voltar ao Menu</button>
+
+  <div class="banner">
+    <h2>🎬 APKs PREMIUM FILMES</h2>
+    <p>🔥 Filmes, Séries, Novelas 4K sem travar</p>
+    <p>💎 Paga → Recebe link direto MediaFire</p>
+  </div>
+
+  <div class="grid-megas">
+
+    <!-- CARD 1 CINEGATO -->
+    <div class="card-mega">
+      <img src="https://i.ibb.co/8nzWZnfs/2985f6b74cff.jpg" alt="Cinegato APK" style="height:180px; object-fit:contain; background:#000; padding:20px;">
+      <div class="card-info">
+        <h4>Cinegato APK v2.1.1</h4>
+        <p>69 MT - Vitalício</p>
+        <p style="font-size:13px; color:#aaa; margin-bottom:12px;">🔥 Catálogo Netflix + HBO + Disney<br>⚡ Atualizado 2026 | Sem anúncio<br>📱 Android 5.0+</p>
+        <button class="btn-comprar" onclick="comprarAPK('Cinegato APK 69MT', 'https://www.mediafire.com/file/moorfcn229ye1xl/Cinegato_v2.1.1.apk/file')">🔓 Desbloquear APK</button>
+      </div>
+    </div>
+
+    <!-- CARD 2 DRAMA TV -->
+    <div class="card-mega">
+      <img src="https://i.ibb.co/6RT07nGF/3e8a169fe047.jpg" alt="Drama TV APK" style="height:180px; object-fit:contain; background:#000; padding:20px;">
+      <div class="card-info">
+        <h4>Drama TV v1.5.14.2</h4>
+        <p>99 MT - Vitalício</p>
+        <p style="font-size:13px; color:#aaa; margin-bottom:12px;">💎 Novelas + Doramas + Séries<br>⚡ Qualidade HD/4K | Player rápido<br>🌍 Dublado e Legendado</p>
+        <button class="btn-comprar" onclick="comprarAPK('Drama TV APK 99MT', 'https://www.mediafire.com/file/33r0mbfsqa4p2ka/Drama_TV-v1.5.14.2.apk/file')">🔓 Desbloquear APK</button>
+      </div>
+    </div>
+
+    <!-- CARD 3 FUZZ TV -->
+    <div class="card-mega">
+      <img src="https://i.ibb.co/jPVvjzJv/774984eefa6c.jpg" alt="FuzzTV APK" style="height:180px; object-fit:contain; background:#000; padding:20px;">
+      <div class="card-info">
+        <h4>FuzzTV VIP 3.0.0</h4>
+        <p>20 MT - Vitalício</p>
+        <p style="font-size:13px; color:#aaa; margin-bottom:12px;">🚀 Mais leve do mercado<br>⚡ Abre em 2 seg | Zero bug<br>🎯 Canais ao vivo + Filmes</p>
+        <button class="btn-comprar" onclick="comprarAPK('FuzzTV APK 20MT', 'https://www.mediafire.com/file/18yo9q965avkyl4/FuzzTv_3.0.0_VIP_')">🔓 Desbloquear APK</button>
+      </div>
+    </div>
+
+    <!-- CARD 4 BRAZIL TV -->
+    <div class="card-mega">
+      <img src="https://i.ibb.co/XrYSddk1/3ab884d5a98c.jpg" alt="Brazil TV APK" style="height:180px; object-fit:contain; background:#000; padding:20px;">
+      <div class="card-info">
+        <h4>Brasil TVBOX 5.49.1</h4>
+        <p>149 MT - Vitalício</p>
+        <p style="font-size:13px; color:#aaa; margin-bottom:12px;">👑 APK mais completo 2026<br>⚡ 10k+ canais | Filmes lançamentos<br>📺 Ideal pra TV Box e Celular</p>
+        <button class="btn-comprar" onclick="comprarAPK('Brasil TV APK 149MT', 'https://www.mediafire.com/file/ko8ycd4gxlegond/Brasil_TV_5.49.1_TVBOX.apk/file')">🔓 Desbloquear APK</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- SEÇÃO VPN -->
+<div id="secaoVPN" style="display:none;">
+  <button class="btn-voltar" onclick="voltarMenu()">⬅ Voltar ao Menu</button>
+
+  <div class="banner">
+    <h2>🚀 MELHORES VPNs 2026</h2>
+    <p>⚡ Rápidas, seguras e 100% grátis</p>
+    <p>📱 1 clique e baixa direto da Play Store</p>
+  </div>
+
+  <div class="grid-megas">
+    <div class="card-mega">
+      <img src="https://i.ibb.co/wXGP345/36cc312ef17f.jpg" alt="Click VPN">
+      <div class="card-info">
+        <h4>Click VPN</h4>
+        <p>Rápida + Ilimitada</p>
+        <p style="font-size:13px; color:#aaa; margin-bottom:12px;">Servidores estáveis. Ideal pra Free Fire e YouTube</p>
+        <button class="btn-comprar" onclick="window.open('https://play.google.com/store/apps/details?id=dev.jx.clickconnect','_blank')">⬇ Baixar Grátis</button>
+      </div>
+    </div>
+
+    <div class="card-mega">
+      <img src="https://i.ibb.co/v6TgxjjC/93bc03d2797c.jpg" alt="Psiphon Pro">
+      <div class="card-info">
+        <h4>Psiphon Pro</h4>
+        <p>Mais Estável</p>
+        <p style="font-size:13px; color:#aaa; margin-bottom:12px;">Fura qualquer bloqueio. Funciona em toda rede</p>
+        <button class="btn-comprar" onclick="window.open('https://play.google.com/store/apps/details?id=com.psiphon3.subscription','_blank')">⬇ Baixar Grátis</button>
+      </div>
+    </div>
+
+    <div class="card-mega">
+      <img src="https://i.ibb.co/fB1CQwR/c6a86a3a6be0.jpg" alt="BD Free VPN">
+      <div class="card-info">
+        <h4>BD Free VPN</h4>
+        <p>Ping Baixo</p>
+        <p style="font-size:13px; color:#aaa; margin-bottom:12px;">Top pra jogos online. Zero lag</p>
+        <button class="btn-comprar" onclick="window.open('https://play.google.com/store/apps/details?id=dastan.prince.bdfreevpn','_blank')">⬇ Baixar Grátis</button>
+      </div>
+    </div>
+
+    <div class="card-mega">
+      <img src="https://i.ibb.co/1JzVtY8N/73d8af467184.jpg" alt="URSA Net Pro">
+      <div class="card-info">
+        <h4>URSA Net Pro</h4>
+        <p>Velocidade Máxima</p>
+        <p style="font-size:13px; color:#aaa; margin-bottom:12px;">Download rápido + Navegação segura</p>
+        <button class="btn-comprar" onclick="window.open('https://play.google.com/store/apps/details?id=dastan.prince.ursanetpro','_blank')">⬇ Baixar Grátis</button>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+    </div>
+
+</div>
+</div>
+<!-- MODAL COMPRA -->
+<div class="modal" id="modalMega">
+  <div class="box">
+    <h3 id="tituloMega" style="color:#00ff88; margin-bottom:15px;">Confirmar Compra</h3>
+    <p id="infoMega" style="font-size:15px; color:#ccc; margin-bottom:15px;"></p>
+    <input id="numero" placeholder="📱 Número VODACOM 86/87">
+    <div class="btns">
+      <button class="confirm" onclick="confirmarCompra()">Confirmar</button>
+      <button class="cancel" onclick="fecharModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let saldoAtual = 0;
+let pacoteSelecionado = "";
+let linkAPK = "";
+let modoAPK = false; // FLAG PRA SABER SE É APK
+
+async function load(){
+  const user = localStorage.getItem("userName");
+  if(!user){
+    alert("Faz login primeiro!");
+    return;
+  }
+  try{
+    const r = await fetch(`http://127.0.0.1:8080/api/perfil/${user}`);
+    const d = await r.json();
+    saldoAtual = Number(d.user.saldo || 0);
+    document.getElementById("saldo").innerText = saldoAtual.toFixed(2);
+  }catch(e){
+    saldoAtual = 0;
+    document.getElementById("saldo").innerText = "0.00";
+  }
+}
+
+function comprarAPK(pacote, link){
+  modoAPK = true; // ATIVA MODO APK
+  pacoteSelecionado = pacote;
+  linkAPK = link;
+  const preco = parseFloat(pacote.match(/\d+MT/)[0].replace('MT',''));
+  const novoSaldo = (saldoAtual - preco).toFixed(2);
+
+  document.getElementById("tituloMega").innerText = "Desbloquear " + pacote;
+  document.getElementById("infoMega").innerText =
+`🎬 APK: ${pacote}
+💰 Saldo atual: ${saldoAtual.toFixed(2)} MT
+💸 Custo: ${preco} MT
+📊 Saldo após: ${novoSaldo} MT
+
+Clica Confirmar e recebe o link direto`;
+
+  document.getElementById("numero").style.display = "none"; // ESCONDE INPUT
+  document.getElementById("modalMega").style.display = "flex";
+}
+
+function comprar(pacote){
+  modoAPK = false; // DESATIVA MODO APK
+  pacoteSelecionado = pacote;
+  const preco = parseFloat(pacote.match(/\d+MT/)[0].replace('MT',''));
+  const novoSaldo = (saldoAtual - preco).toFixed(2);
+
+  document.getElementById("tituloMega").innerText = "Comprar " + pacote;
+  document.getElementById("infoMega").innerText =
+`📦 Pacote: ${pacote}
+💰 Saldo atual: ${saldoAtual.toFixed(2)} MT
+💸 Custo: ${preco} MT
+📊 Saldo após: ${novoSaldo} MT`;
+
+  document.getElementById("numero").style.display = "block"; // MOSTRA INPUT
+  document.getElementById("modalMega").style.display = "flex";
+}
+
+function fecharModal(){
+  document.getElementById("modalMega").style.display = "none";
+  document.getElementById("numero").value = "";
+  document.getElementById("numero").style.display = "block";
+  document.querySelector(".btns").style.display = "flex";
+  modoAPK = false; // reseta flag
+}
+
+function copiarLink(){
+  navigator.clipboard.writeText(linkAPK);
+  alert("📋 Link copiado!");
+}
+
+async function confirmarCompra(){
+  const preco = parseFloat(pacoteSelecionado.match(/\d+MT/)[0].replace('MT',''));
+  
+  if(saldoAtual < preco){
+    alert("❌ Saldo insuficiente!");
+    return;
+  }
+
+  // SE FOR APK = não pede número e mostra link
+  if(modoAPK){
+    try{
+      const user = localStorage.getItem("userName");
+      const r = await fetch("http://127.0.0.1:8080/api/comprar",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({nome:user, valor:preco})
+      });
+      const d = await r.json();
+
+      if(!d.success){ alert(d.message); return; }
+
+      saldoAtual = d.saldo;
+      document.getElementById("saldo").innerText = saldoAtual.toFixed(2);
+
+      document.getElementById("tituloMega").innerText = "✅ APK Desbloqueado!";
+      document.getElementById("infoMega").innerHTML = `
+        <p style="margin-bottom:15px;">🎉 Pagamento confirmado!</p>
+        <button class="btn-comprar" style="margin-bottom:10px;" onclick="copiarLink()">📋 Copiar Link</button>
+        <button class="btn-comprar" style="background:linear-gradient(135deg,#00ff88,#00cc66);" onclick="window.open('${linkAPK}','_blank')">⬇ Baixar Agora</button>
+        <p style="font-size:12px; color:#aaa; margin-top:15px;">Link MediaFire direto. Instala e ativa "fontes desconhecidas"</p>
+      `;
+      document.querySelector(".btns").style.display = "none";
+
+    }catch(e){
+      alert("Erro na compra. Tenta novamente.");
+    }
+    return;
+  }
+
+  // SE FOR MEGA = pede número normal
+  const numero = document.getElementById("numero").value;
+  if(numero.length < 9){
+    alert("Digite número VODACOM válido 86/87");
+    return;
+  }
+
+  try{
+    const user = localStorage.getItem("userName");
+    const r = await fetch("http://127.0.0.1:8080/api/comprar",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({nome:user, valor:preco})
+    });
+    const d = await r.json();
+
+    if(!d.success){ alert(d.message); return; }
+
+    saldoAtual = d.saldo;
+    document.getElementById("saldo").innerText = saldoAtual.toFixed(2);
+
+    const msg = encodeURIComponent(`Valor: ${preco}MT`);
+    window.open("https://wa.me/+258862434431?text=" + msg, "_blank");
+
+    alert("✅ Pedido enviado! Aguarde ativação.");
+    fecharModal();
+
+  }catch(e){
+    alert("Erro na compra. Tenta novamente.");
+  }
+}
+
+// resto das funções abrirMegas, abrirVPN, abrirAPKs, voltarMenu fica igual
+
+function abrirMegas(){
+  document.getElementById("menuPrincipal").style.display = "none";
+  document.getElementById("secaoMegas").style.display = "block";
+  document.getElementById("secaoVPN").style.display = "none";
+  document.getElementById("secaoAPKs").style.display = "none";
+  window.scrollTo(0,0);
+}
+
+function abrirVPN(){
+  document.getElementById("menuPrincipal").style.display = "none";
+  document.getElementById("secaoMegas").style.display = "none";
+  document.getElementById("secaoVPN").style.display = "block";
+  document.getElementById("secaoAPKs").style.display = "none";
+  window.scrollTo(0,0);
+}
+
+function abrirAPKs(){
+  document.getElementById("menuPrincipal").style.display = "none";
+  document.getElementById("secaoMegas").style.display = "none";
+  document.getElementById("secaoVPN").style.display = "none";
+  document.getElementById("secaoAPKs").style.display = "block";
+  window.scrollTo(0,0);
+}
+
+function voltarMenu(){
+  document.getElementById("secaoMegas").style.display = "none";
+  document.getElementById("secaoVPN").style.display = "none";
+  document.getElementById("secaoAPKs").style.display = "none";
+  document.getElementById("menuPrincipal").style.display = "block";
+  fecharModal();
+}
+
+window.onload = load;
+</script>
+
+<footer>© 2026 JulsonNet. Todos os direitos reservados</footer>
+
+</body>
+</html>
