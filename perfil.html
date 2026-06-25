@@ -151,7 +151,7 @@ async function carregarPerfil() {
 
   try {
 
-    const response = await fetch(`http://localhost:8080/api/perfil/${userName}`);
+    const response = await fetch(`/api/perfil/${userName}`);
 
     const data = await response.json();
 
