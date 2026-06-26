@@ -487,7 +487,7 @@ async function load(){
     return;
   }
   try{
-    const r = await fetch(`http://127.0.0.1:8080/api/perfil/${user}`);
+    const r = await fetch(`/api/perfil/${user}`);
     const d = await r.json();
     saldoAtual = Number(d.user.saldo || 0);
     document.getElementById("saldo").innerText = saldoAtual.toFixed(2);
@@ -559,7 +559,7 @@ async function confirmarCompra(){
   if(modoAPK){
     try{
       const user = localStorage.getItem("userName");
-      const r = await fetch("http://127.0.0.1:8080/api/comprar",{
+      const r = await fetch("/api/comprar",{
         method:"POST",
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify({nome:user, valor:preco})
@@ -595,7 +595,7 @@ async function confirmarCompra(){
 
   try{
     const user = localStorage.getItem("userName");
-    const r = await fetch("http://127.0.0.1:8080/api/comprar",{
+    const r = await fetch("/api/comprar",{
       method:"POST",
       headers:{"Content-Type":"application/json"},
       body:JSON.stringify({nome:user, valor:preco})
