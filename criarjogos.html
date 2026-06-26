@@ -148,7 +148,7 @@ async function adicionarJogo(){
   const jogo = {nome, plataforma, descricao, tamanho, custo, download, icone, imagens};
 
   try{
-    const res = await fetch('${API}/api/jogos/add', {
+    const res = await fetch('/api/jogos/add', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(jogo)
@@ -173,7 +173,7 @@ async function apagarJogo(index){
   }
 
   try{
-    const res = await fetch('${API}/api/jogos/del/' + index, {method: 'DELETE'});
+    const res = await fetch('/api/jogos/del/' + index, {method: 'DELETE'});
     const data = await res.json();
 
     if(data.success){
