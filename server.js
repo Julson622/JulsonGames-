@@ -628,28 +628,28 @@ app.post('/api/share', (req, res) => {
 // POST /api/voto - salva like/dislike
 app.post('/api/voto', (req, res) => {
   const { userId, jogoId, tipo } = req.body;
+  const id = decodeURIComponent(jogoId).toLowerCase().replace(/\s/g, ''); // <- LINHA NOVA
   const likes = loadLikes();
 
-  if(!likes[jogoId]) likes[jogoId] = { likes: 0, dislikes: 0, votos: {} };
+  if(!likes[id]) likes[id] = { likes: 0, dislikes: 0, votos: {} }; // <- troca jogoId por id
 
-  const votoAnt = likes[jogoId].votos[userId];
-
-  if(votoAnt === 'like') likes[jogoId].likes--;
-  if(votoAnt === 'dislike') likes[jogoId].dislikes--;
+  const votoAnt = likes[id].votos[userId]; // <- troca jogoId por id
+  if(votoAnt === 'like') likes[id].likes--; // <- troca jogoId por id
+  if(votoAnt === 'dislike') likes[id].dislikes--; // <- troca jogoId por id
 
   if(votoAnt === tipo){
-    delete likes[jogoId].votos[userId];
+    delete likes[id].votos[userId]; // <- troca jogoId por id
   } else {
-    likes[jogoId].votos[userId] = tipo;
-    if(tipo === 'like') likes[jogoId].likes++;
-    if(tipo === 'dislike') likes[jogoId].dislikes++;
+    likes[id].votos[userId] = tipo; // <- troca jogoId por id
+    if(tipo === 'like') likes[id].likes++; // <- troca jogoId por id
+    if(tipo === 'dislike') likes[id].dislikes++; // <- troca jogoId por id
   }
 
   saveLikes(likes);
   res.json({
-    likes: likes[jogoId].likes,
-    dislikes: likes[jogoId].dislikes,
-    meuVoto: likes[jogoId].votos[userId] || null
+    likes: likes[id].likes, // <- troca jogoId por id
+    dislikes: likes[id].dislikes, // <- troca jogoId por id
+    meuVoto: likes[id].votos[userId] || null // <- troca jogoId por id
   });
 });
 
@@ -657,17 +657,17 @@ app.post('/api/voto', (req, res) => {
 app.get('/api/votos/:jogoId', (req, res) => {
   const { jogoId } = req.params;
   const user = req.query.user;
+  const id = decodeURIComponent(jogoId).toLowerCase().replace(/\s/g, ''); // <- LINHA NOVA
   const likes = loadLikes();
 
-  if(!likes[jogoId]) likes[jogoId] = { likes: 0, dislikes: 0, votos: {} };
+  if(!likes[id]) likes[id] = { likes: 0, dislikes: 0, votos: {} }; // <- troca jogoId por id
 
   res.json({
-    likes: likes[jogoId].likes,
-    dislikes: likes[jogoId].dislikes,
-    meuVoto: likes[jogoId].votos[user] || null
+    likes: likes[id].likes, // <- troca jogoId por id
+    dislikes: likes[id].dislikes, // <- troca jogoId por id
+    meuVoto: likes[id].votos[user] || null // <- troca jogoId por id
   });
 });
-
 
 
 
