@@ -15,14 +15,13 @@ app.use(express.json());
 
 
 // ================== ARQUIVOS ==================
-// /app = Pasta do HD que NÃO APAGA no Fly.io
-const DATA_PATH = '/app'; 
-const USERS_FILE = path.join(DATA_PATH, 'users.json');
-const KEY_FILE = path.join(DATA_PATH, 'key.json');
-const JOGOS_SHARE_FILE = path.join(DATA_PATH, 'jogos_share.json');
-const LIKES_FILE = path.join(DATA_PATH, 'like.json');
-const JOGOS_FILE = path.join(DATA_PATH, 'jogos.json');
-const LOGS_FILE = path.join(DATA_PATH, 'logs.json');
+// Koyeb = Disco persiste. Pode usar __dirname normal
+const USERS_FILE = path.join(__dirname, 'users.json');
+const KEY_FILE = path.join(__dirname, 'key.json');
+const JOGOS_SHARE_FILE = path.join(__dirname, 'jogos_share.json');
+const LIKES_FILE = path.join(__dirname, 'like.json');
+const JOGOS_FILE = path.join(__dirname, 'jogos.json');
+const LOGS_FILE = path.join(__dirname, 'logs.json');
 
 if (!fs.existsSync(LIKES_FILE)) {
   fs.writeFileSync(LIKES_FILE, '{}');
