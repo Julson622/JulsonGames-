@@ -301,8 +301,8 @@ jogosComVotos.forEach(({ jogo, id, dataVotos }) => {
       <h3>${jogo.nome}</h3>
       <p class="preco">${jogo.custo === "Grátis"? "🎁 Grátis" : `💰 ${jogo.custo}`}</p>
       <div class="votos">
-        <span class="voto ${likeClass}" onclick="votar('${encodeURIComponent(jogo.nome)}', true, event)">👍 <span id="like-${encodeURIComponent(jogo.nome)}">${dataVotos.likes}</span></span>
-onclick="votar('${encodeURIComponent(jogo.nome)}', false, event)">👎 <span id="dislike-${encodeURIComponent(jogo.nome)}">${dataVotos.dislikes}</span></span>
+        <span class="voto ${likeClass}" onclick="votar(&quot;${encodeURIComponent(jogo.nome)}&quot;, true, event)">👍 <span id="like-${encodeURIComponent(jogo.nome)}">${dataVotos.likes}</span></span>
+        <span class="voto ${dislikeClass}" onclick="votar(&quot;${encodeURIComponent(jogo.nome)}&quot;, false, event)">👎 <span id="dislike-${encodeURIComponent(jogo.nome)}">${dataVotos.dislikes}</span></span>
       </div>
     </div>
   `;
