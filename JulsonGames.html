@@ -275,7 +275,7 @@ async function carregarJogos(filtro = ""){
     }
 
     const votosPromises = jogos.map(async (jogo) => {
-  const id = jogo.nome.toLowerCase().replace(/\s/g, '');
+  const id = encodeURIComponent(jogo.nome);
   const userId = localStorage.getItem("userName") || "demo";
   
   try {
@@ -301,8 +301,8 @@ jogosComVotos.forEach(({ jogo, id, dataVotos }) => {
       <h3>${jogo.nome}</h3>
       <p class="preco">${jogo.custo === "Grátis"? "🎁 Grátis" : `💰 ${jogo.custo}`}</p>
       <div class="votos">
-        <span class="voto ${likeClass}" onclick="votar('${id}', true, event)">👍 <span id="like-${id}">${dataVotos.likes}</span></span>
-        <span class="voto ${dislikeClass}" onclick="votar('${id}', false, event)">👎 <span id="dislike-${id}">${dataVotos.dislikes}</span></span>
+        <span class="voto ${likeClass}" onclick="votar('${encodeURIComponent(jogo.nome)}', true, event)">👍 <span id="like-${encodeURIComponent(jogo.nome)}">${dataVotos.likes}</span></span>
+onclick="votar('${encodeURIComponent(jogo.nome)}', false, event)">👎 <span id="dislike-${encodeURIComponent(jogo.nome)}">${dataVotos.dislikes}</span></span>
       </div>
     </div>
   `;
