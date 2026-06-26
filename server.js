@@ -15,10 +15,14 @@ app.use(express.json());
 
 
 // ================== ARQUIVOS ==================
-const USERS_FILE = path.join(__dirname, 'users.json');
-const KEY_FILE = path.join(__dirname, 'key.json');
-const JOGOS_SHARE_FILE = path.join(__dirname, 'jogos_share.json');
-const LIKES_FILE = path.join(__dirname, 'like.json');
+// /app = Pasta do HD que NÃO APAGA no Fly.io
+const DATA_PATH = '/app'; 
+const USERS_FILE = path.join(DATA_PATH, 'users.json');
+const KEY_FILE = path.join(DATA_PATH, 'key.json');
+const JOGOS_SHARE_FILE = path.join(DATA_PATH, 'jogos_share.json');
+const LIKES_FILE = path.join(DATA_PATH, 'like.json');
+const JOGOS_FILE = path.join(DATA_PATH, 'jogos.json');
+const LOGS_FILE = path.join(DATA_PATH, 'logs.json');
 
 if (!fs.existsSync(LIKES_FILE)) {
   fs.writeFileSync(LIKES_FILE, '{}');
@@ -34,7 +38,8 @@ function loadLikes() {
 function saveLikes(data) {
   fs.writeFileSync(LIKES_FILE, JSON.stringify(data, null, 2));
 }
-const JOGOS_FILE = path.join(__dirname, 'jogos.json');
+
+
 
 // ================== CRIAR ARQUIVOS ==================
 if (!fs.existsSync(USERS_FILE)) {
@@ -302,7 +307,6 @@ app.post('/api/logs/limpar', (req, res) => {
 
 
 // ================== ARQUIVO LOGS ==================
-const LOGS_FILE = path.join(__dirname, 'logs.json');
 
 if (!fs.existsSync(LOGS_FILE)) {
   fs.writeFileSync(LOGS_FILE, '[]');
